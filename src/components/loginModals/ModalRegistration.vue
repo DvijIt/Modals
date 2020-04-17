@@ -1,5 +1,5 @@
 <template>
-  <modal title="Modal With Form + Validate" @close="$emit('close', $v)">
+  <modal title="Registration" @close="$emit('close', $v)">
     <form slot="body" @submit.prevent="onSubmit">
       <!-- name -->
       <div class="form-item" :class="{ errorInput: $v.name.$error }">
@@ -44,7 +44,8 @@
           @change="$v.repeatPassword.$touch()"
         />
       </div>
-      <button class="btn btnPrimary">Submit</button>
+      <button class="btn btnPrimary">Зарегестрироваться</button>
+      <button type="button" class="btnCustom" @click="$emit('changeModal', $v)">У меня уже есть акаунт</button>
     </form>
   </modal>
 </template>
@@ -60,8 +61,8 @@ export default {
     return {
       name: "",
       email: "",
-      password: '',
-      repeatPassword: ''
+      password: "",
+      repeatPassword: ""
     };
   },
   validations: {
@@ -86,15 +87,15 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const user = {
-          name: this.email,
+          name: this.name,
           email: this.email,
           password: this.password
         };
         console.log(user);
         this.name = "";
         this.email = "";
-        this.password = '';
-        this.repeatPassword = '';
+        this.password = "";
+        this.repeatPassword = "";
         this.$v.$reset();
         this.$emit("close", this.$v);
       }
@@ -104,5 +105,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>

@@ -1,16 +1,6 @@
 <template>
-  <modal title="Modal With Form + Validate" @close="$emit('close', $v)">
+  <modal title="Login" @close="$emit('close', $v)">
     <form slot="body" @submit.prevent="onSubmit">
-      <!-- name -->
-      <div class="form-item" :class="{ errorInput: $v.name.$error }">
-        <label>Name:</label>
-        <p class="errorText" v-if="!$v.name.required">Field is required!</p>
-        <p
-          class="errorText"
-          v-if="!$v.name.minLength"
-        >Name must have {{$v.name.$params.minLength.min}}!</p>
-        <input v-model="name" :class="{ error: $v.name.$error }" @change="$v.name.$touch()" />
-      </div>
       <!-- email -->
       <div class="form-item" :class="{ errorInput: $v.email.$error }">
         <label>Email:</label>
@@ -33,42 +23,27 @@
           @change="$v.password.$touch()"
         />
       </div>
-
-      <!-- repeatPassword -->
-      <div class="form-item" :class="{ errorInput: $v.repeatPassword.$error }">
-        <p class="errorText" v-if="!$v.repeatPassword.sameAsPassword">Passwords must be identical.</p>
-        <label>Repeat password</label>
-        <input
-          v-model="repeatPassword"
-          :class="{ error: $v.repeatPassword.$error }"
-          @change="$v.repeatPassword.$touch()"
-        />
-      </div>
-      <button class="btn btnPrimary">Submit</button>
+      <button class="btn btnPrimary">Войти</button>
+      <button type="button" class="btnCustom" @click="$emit('changeModal', $v)">Зарегистрироваться</button>
     </form>
   </modal>
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+import { required, minLength, email } from "vuelidate/lib/validators";
 import modal from "@/components/UI/Modal.vue";
+
 export default {
   components: {
     modal
   },
   data() {
     return {
-      name: "",
       email: "",
-      password: '',
-      repeatPassword: ''
+      password: ""
     };
   },
   validations: {
-    name: {
-      required,
-      minLength: minLength(4)
-    },
     email: {
       required,
       email
@@ -76,9 +51,6 @@ export default {
     password: {
       required,
       minLength: minLength(6)
-    },
-    repeatPassword: {
-      sameAsPassword: sameAs("password")
     }
   },
   methods: {
@@ -86,15 +58,12 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const user = {
-          name: this.email,
           email: this.email,
           password: this.password
         };
         console.log(user);
-        this.name = "";
         this.email = "";
-        this.password = '';
-        this.repeatPassword = '';
+        this.password = "";
         this.$v.$reset();
         this.$emit("close", this.$v);
       }
@@ -103,6 +72,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
+<style>
 </style>
