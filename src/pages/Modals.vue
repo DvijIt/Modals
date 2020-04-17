@@ -94,6 +94,13 @@ export default {
 .modal-container {
   display: flex;
   justify-content: space-around;
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+    button {
+      margin-top: 10px;
+      width: 100%;
+    }
+  }
 }
 .form-item .errorText {
   display: none;

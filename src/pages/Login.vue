@@ -76,4 +76,9 @@ export default {
   border: none;
   border-bottom: 1px dashed;
 }
+@media screen and (max-width: 768px) {
+  .modals-container {
+    display: flex;
+  }
+}
 </style>
